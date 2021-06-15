@@ -17,7 +17,8 @@ defmodule PhxReact.Application do
       PhxReactWeb.Endpoint,
       # Start a worker by calling: PhxReact.Worker.start_link(arg)
       # {PhxReact.Worker, arg}
-      PhxReact.Test
+      PhxReact.Test,
+      PhxReact.Server
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
