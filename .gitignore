@@ -1,0 +1,4 @@
+/_build/
+/deps/
+npm-debug.log
+/assets/node_modules/
