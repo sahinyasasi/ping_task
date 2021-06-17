@@ -5,7 +5,7 @@ defmodule PhxReact.Server do
   alias PhxReact.Servers.Server
   use GenServer
 
-  @tick_interval 30_000
+  @tick_interval 300_000
 
   def start_link(_opt) do
     GenServer.start_link(__MODULE__, [])
@@ -20,22 +20,21 @@ defmodule PhxReact.Server do
     query = from(l in Server, select: l.url)
     list = Repo.all(query)
 
-    Enum.map(
-      list,
-      fn url ->
-        case status_of(url) do
-          {:ok, status} ->
-            Repo.get_by(Server, url: url)
-            |> Ecto.Changeset.change(%{status_code: status, is_active: true})
-            |> Repo.update()
+    list
+    |> Task.async_stream(fn url ->
+      case status_of(url) do
+        {:ok, status} ->
+          Repo.get_by(Server, url: url)
+          |> Ecto.Changeset.change(%{status_code: status, is_active: true})
+          |> Repo.update()
 
-          _ ->
-            PhxReact.Repo.get_by(PhxReact.Servers.Server, url: url)
-            |> Ecto.Changeset.change(%{status_code: 500, is_active: false})
-            |> PhxReact.Repo.update()
-        end
+        _ ->
+          PhxReact.Repo.get_by(PhxReact.Servers.Server, url: url)
+          |> Ecto.Changeset.change(%{status_code: 500, is_active: false})
+          |> PhxReact.Repo.update()
       end
-    )
+    end)
+    |> Enum.into([], fn {:ok, res} -> res end)
   end
 
   defp status_of(url) do
