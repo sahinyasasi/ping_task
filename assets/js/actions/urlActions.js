@@ -3,9 +3,10 @@ import axios from "axios";
 export const listAll = () => async (dispatch) => {
   try {
     const res = await axios.get("http://localhost:4000/api/servers");
+
     dispatch({
       type: urlConstants.GET_URL_SUCCESS,
-      payload: res.data,
+      payload: res.data.data,
     });
   } catch (err) {
     dispatch({
