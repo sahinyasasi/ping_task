@@ -1,37 +1,60 @@
 defmodule PhxReact.Server do
+  import Ecto.Query
+  alias PhxReact.Repo
+
+  alias PhxReact.Servers.Server
   use GenServer
 
-  @arr ["https://www.google.com/", "https://localhost:4000", "https://www.google.co.in/"]
   @tick_interval 30_000
 
   def start_link(_opt) do
     GenServer.start_link(__MODULE__, [])
   end
 
-  def ping() do
-    Enum.each(
-      @arr,
-      fn x ->
-        case HTTPoison.get(x) do
-          {:ok, %{status_code: 200}} ->
-            IO.puts(200)
+  def init(state) do
+    schedule()
+    {:ok, state}
+  end
 
-          {:error, %{reason: reason}} ->
-            IO.puts(400)
+  def ping() do
+    query = from(l in Server, select: l.url)
+    list = Repo.all(query)
+
+    Enum.map(
+      list,
+      fn url ->
+        case status_of(url) do
+          {:ok, status} ->
+            Repo.get_by(Server, url: url)
+            |> Ecto.Changeset.change(%{status_code: status, is_active: true})
+            |> Repo.update()
+
+          _ ->
+            PhxReact.Repo.get_by(PhxReact.Servers.Server, url: url)
+            |> Ecto.Changeset.change(%{status_code: 500, is_active: false})
+            |> PhxReact.Repo.update()
         end
       end
     )
   end
 
+  defp status_of(url) do
+    url |> HTTPoison.get() |> parse_response
+  end
+
+  defp parse_response({:ok, %HTTPoison.Response{status_code: status_code}}) do
+    {:ok, status_code}
+  end
+
+  defp parse_response(_) do
+    :error
+  end
+
   def handle_info(:ping, state) do
+    IO.inspect("hi")
     schedule()
     ping()
     {:noreply, state}
-  end
-
-  def init(state) do
-    schedule()
-    {:ok, state}
   end
 
   def schedule do
