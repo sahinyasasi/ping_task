@@ -13,6 +13,11 @@ defmodule PhxReactWeb.Router do
     plug :accepts, ["json"]
   end
 
+  scope "/api", PhxReactWeb do
+    pipe_through :api
+    resources "/servers", ServerController, except: [:new, :edit]
+  end
+
   scope "/", PhxReactWeb do
     pipe_through :browser
 
@@ -20,9 +25,6 @@ defmodule PhxReactWeb.Router do
   end
 
   # Other scopes may use custom stacks.
-  # scope "/api", PhxReactWeb do
-  #   pipe_through :api
-  # end
 
   # Enables LiveDashboard only for development
   #
