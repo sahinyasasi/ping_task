@@ -5,7 +5,7 @@ defmodule PhxReact.Server do
   alias PhxReact.Servers.Server
   use GenServer
 
-  @tick_interval 300_000
+  @tick_interval 30_000
 
   def start_link(_opt) do
     GenServer.start_link(__MODULE__, [])

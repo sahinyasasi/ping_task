@@ -14,6 +14,6 @@ defmodule PhxReact.Servers.Server do
   def changeset(server, attrs) do
     server
     |> cast(attrs, [:url, :status_code, :is_active])
-    |> validate_required([:url, :status_code, :is_active])
+    |> validate_required([:url])
   end
 end
