@@ -38,7 +38,7 @@ defmodule PhxReact.Server do
   end
 
   defp status_of(url) do
-    url |> HTTPoison.get() |> parse_response
+    url |> HTTPoison.get([], timeout: 10_000, recv_timeout: 10_000) |> parse_response
   end
 
   defp parse_response({:ok, %HTTPoison.Response{status_code: status_code}}) do
