@@ -12,7 +12,7 @@ defmodule PhxReact.Server do
   end
 
   def init(state) do
-    schedule()
+    Process.send_after(self(), :ping, @tick_interval)
     {:ok, state}
   end
 
@@ -24,16 +24,16 @@ defmodule PhxReact.Server do
     list
     |> Task.async_stream(fn url ->
       case status_of(url) do
-        {:ok, 200} ->
+        {:ok, status} ->
           Repo.get_by(Server, url: url)
           |> Ecto.Changeset.change(%{
-            status_code: 200,
+            status_code: status,
             is_active: true,
             updated_at: updated_time
           })
           |> Repo.update()
 
-        _ ->
+        {:error, _err} ->
           PhxReact.Repo.get_by(PhxReact.Servers.Server, url: url)
           |> Ecto.Changeset.change(%{
             status_code: 500,
@@ -58,17 +58,13 @@ defmodule PhxReact.Server do
     {:ok, status_code}
   end
 
-  defp parse_response(_) do
-    :error
+  defp parse_response({:error, err}) do
+    {:error, err}
   end
 
   def handle_info(:ping, state) do
-    schedule()
+    Process.send_after(self(), :ping, @tick_interval)
     ping()
     {:noreply, state}
-  end
-
-  def schedule do
-    Process.send_after(self(), :ping, @tick_interval)
   end
 end

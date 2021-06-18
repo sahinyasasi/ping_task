@@ -76,6 +76,7 @@ const Home = () => {
         <TableHead>
           <TableRow>
             <TableCell>Server</TableCell>
+            <TableCell>Code</TableCell>
             <TableCell>Status</TableCell>
             <TableCell>Updated At</TableCell>
           </TableRow>
@@ -87,10 +88,13 @@ const Home = () => {
                 {url.url}
               </TableCell>
               <TableCell component="th" scope="row">
-                {url.is_active ? (
-                  <FiberManualRecordIcon className={classes.active} />
-                ) : (
+                {url.status_code}
+              </TableCell>
+              <TableCell component="th" scope="row">
+                {url.status_code === 500 || url.status_code === 404 ? (
                   <FiberManualRecordIcon className={classes.inActive} />
+                ) : (
+                  <FiberManualRecordIcon className={classes.active} />
                 )}
               </TableCell>
               <TableCell>{convert(url.updated_at)}</TableCell>
