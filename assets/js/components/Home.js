@@ -41,22 +41,23 @@ let channel = socket.channel("server:update", {});
 channel
   .join()
   .receive("ok", (resp) => {
-    console.log("Joined successfully", resp);
+    console.log("Joined WebSocket successfully", resp);
   })
   .receive("error", (resp) => {
-    console.log("Unable to join", resp);
+    console.log("Unable to join Websocket", resp);
   });
 
 const Home = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const getUrl = useSelector((state) => state.getUrl);
-  console.log(getUrl.urls);
-  let now = new Date();
+  console.log("redux state................", getUrl.urls);
+
   useEffect(() => {
     dispatch(listAll());
     channel.on("new_data", (msg) => {
       dispatch(listAll());
+      console.log("redux state updated using channel");
     });
   }, [dispatch]);
 
@@ -76,7 +77,7 @@ const Home = () => {
           <TableRow>
             <TableCell>Server</TableCell>
             <TableCell>Status</TableCell>
-            <TableCell>Time</TableCell>
+            <TableCell>Updated At</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>

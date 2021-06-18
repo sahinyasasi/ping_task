@@ -19,6 +19,7 @@ defmodule PhxReact.Server do
   def ping() do
     query = from(l in Server, select: l.url)
     list = Repo.all(query)
+    updated_time = DateTime.truncate(DateTime.utc_now(), :second)
 
     list
     |> Task.async_stream(fn url ->
@@ -27,7 +28,8 @@ defmodule PhxReact.Server do
           Repo.get_by(Server, url: url)
           |> Ecto.Changeset.change(%{
             status_code: 200,
-            is_active: true
+            is_active: true,
+            updated_at: updated_time
           })
           |> Repo.update()
 
@@ -35,7 +37,8 @@ defmodule PhxReact.Server do
           PhxReact.Repo.get_by(PhxReact.Servers.Server, url: url)
           |> Ecto.Changeset.change(%{
             status_code: 500,
-            is_active: false
+            is_active: false,
+            updated_at: updated_time
           })
           |> PhxReact.Repo.update()
       end
@@ -60,7 +63,6 @@ defmodule PhxReact.Server do
   end
 
   def handle_info(:ping, state) do
-    IO.inspect("hi")
     schedule()
     ping()
     {:noreply, state}

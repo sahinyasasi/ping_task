@@ -53,6 +53,10 @@ defmodule PhxReact.Servers do
     %Server{}
     |> Server.changeset(attrs)
     |> Repo.insert()
+
+    PhxReactWeb.Endpoint.broadcast!("server:update", "new_data", %{
+      response: "data"
+    })
   end
 
   @doc """
