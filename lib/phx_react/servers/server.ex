@@ -1,6 +1,7 @@
 defmodule PhxReact.Servers.Server do
   use Ecto.Schema
   import Ecto.Changeset
+  @timestamps_opts [type: :utc_datetime]
 
   schema "servers" do
     field :is_active, :boolean, default: false

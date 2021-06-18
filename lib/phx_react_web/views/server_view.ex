@@ -15,7 +15,8 @@ defmodule PhxReactWeb.ServerView do
       id: server.id,
       url: server.url,
       status_code: server.status_code,
-      is_active: server.is_active
+      is_active: server.is_active,
+      updated_at: server.updated_at
     }
   end
 end

@@ -52,13 +52,22 @@ const Home = () => {
   const dispatch = useDispatch();
   const getUrl = useSelector((state) => state.getUrl);
   console.log(getUrl.urls);
-
+  let now = new Date();
   useEffect(() => {
     dispatch(listAll());
     channel.on("new_data", (msg) => {
       dispatch(listAll());
     });
   }, [dispatch]);
+
+  const convert = (date) => {
+    let localdate = new Date(date);
+    let hrs = localdate.getHours();
+    let mins = localdate.getMinutes();
+    let secs = localdate.getSeconds();
+
+    return `${hrs}:${mins}:${secs}`;
+  };
 
   return (
     <TableContainer className={classes.tableContainer}>
@@ -67,26 +76,25 @@ const Home = () => {
           <TableRow>
             <TableCell>Server</TableCell>
             <TableCell>Status</TableCell>
+            <TableCell>Time</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {getUrl.urls
-            .slice(0)
-            .reverse()
-            .map((url) => (
-              <TableRow key={url.id}>
-                <TableCell component="th" scope="row">
-                  {url.url}
-                </TableCell>
-                <TableCell component="th" scope="row">
-                  {url.is_active ? (
-                    <FiberManualRecordIcon className={classes.active} />
-                  ) : (
-                    <FiberManualRecordIcon className={classes.inActive} />
-                  )}
-                </TableCell>
-              </TableRow>
-            ))}
+          {getUrl.urls.map((url) => (
+            <TableRow key={url.id}>
+              <TableCell component="th" scope="row">
+                {url.url}
+              </TableCell>
+              <TableCell component="th" scope="row">
+                {url.is_active ? (
+                  <FiberManualRecordIcon className={classes.active} />
+                ) : (
+                  <FiberManualRecordIcon className={classes.inActive} />
+                )}
+              </TableCell>
+              <TableCell>{convert(url.updated_at)}</TableCell>
+            </TableRow>
+          ))}
         </TableBody>
       </Table>
     </TableContainer>

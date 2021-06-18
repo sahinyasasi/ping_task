@@ -5,7 +5,7 @@ defmodule PhxReact.Server do
   alias PhxReact.Servers.Server
   use GenServer
 
-  @tick_interval 300_000
+  @tick_interval 60_000
 
   def start_link(_opt) do
     GenServer.start_link(__MODULE__, [])
@@ -23,14 +23,20 @@ defmodule PhxReact.Server do
     list
     |> Task.async_stream(fn url ->
       case status_of(url) do
-        {:ok, status} ->
+        {:ok, 200} ->
           Repo.get_by(Server, url: url)
-          |> Ecto.Changeset.change(%{status_code: status, is_active: true})
+          |> Ecto.Changeset.change(%{
+            status_code: 200,
+            is_active: true
+          })
           |> Repo.update()
 
         _ ->
           PhxReact.Repo.get_by(PhxReact.Servers.Server, url: url)
-          |> Ecto.Changeset.change(%{status_code: 500, is_active: false})
+          |> Ecto.Changeset.change(%{
+            status_code: 500,
+            is_active: false
+          })
           |> PhxReact.Repo.update()
       end
     end)
