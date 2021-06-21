@@ -1,6 +1,6 @@
 import React from "react";
 
-const Apps = () => {
+const PostApp = () => {
   return <div>App</div>;
 };
-export default Apps;
+export default PostApp;
