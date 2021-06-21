@@ -43,12 +43,40 @@ const PostApp = () => {
     url: "",
     status: "",
   });
+  const [errors, setErrors] = useState({});
   const handleChange = (key, data) => {
     setDetails({
       ...details,
       [key]: data.value,
     });
   };
+
+  ///////////////////////////////////////////////////////////////////////////////////
+  const handleValidation = () => {
+    let fields = details;
+    let errors = {};
+    let formIsValid = true;
+    if (!fields["title"]) {
+      formIsValid = false;
+      errors["title"] = "Title Field Cannot be empty";
+    }
+    if (!fields["body"]) {
+      formIsValid = false;
+      errors["body"] = "Body Field Cannot be empty";
+    }
+    if (!fields["status"]) {
+      formIsValid = false;
+      errors["status"] = "Select one of the options";
+    }
+    if (!fields["url"]) {
+      formIsValid = false;
+      errors["url"] = "Url Field Cannot be empty";
+    }
+    setErrors(errors);
+    return formIsValid;
+  };
+
+  ////////////////////////////////////////////////////////////////////////////////////
   const postAppSubmit = (details) => {
     dispatch(addApp({ app: details }));
   };
@@ -70,6 +98,8 @@ const PostApp = () => {
               value={details.title}
               name="title"
               onChange={(e) => handleChange("title", { value: e.target.value })}
+              error={!!errors.title}
+              helperText={errors.title}
             />
           </Grid>
 
@@ -83,6 +113,8 @@ const PostApp = () => {
                 onChange={(e) =>
                   handleChange("status", { value: e.target.value })
                 }
+                error={!!errors.status}
+                helperText={errors.status}
               >
                 <MenuItem value={"Active"}>Active</MenuItem>
                 <MenuItem value={"inActive"}>inActive</MenuItem>
@@ -99,6 +131,8 @@ const PostApp = () => {
               variant="outlined"
               onChange={(e) => handleChange("url", { value: e.target.value })}
               name="url"
+              error={!!errors.url}
+              helperText={errors.url}
             />
           </Grid>
           <Grid item sm={12}>
@@ -110,6 +144,8 @@ const PostApp = () => {
               value={details.body}
               onChange={(e) => handleChange("body", { value: e.target.value })}
               name="body"
+              error={!!errors.body}
+              helperText={errors.body}
             />
           </Grid>
           <Grid item sm={4}>
@@ -120,7 +156,9 @@ const PostApp = () => {
               type="submit"
               onClick={(e) => {
                 e.preventDefault();
-                postAppSubmit(details);
+                if (handleValidation()) {
+                  postAppSubmit(details);
+                }
               }}
             >
               Add Server
