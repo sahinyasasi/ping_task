@@ -7,7 +7,9 @@ export const addApp = (appData) => async (dispatch) => {
     },
   };
   try {
+    console.log("postaction..........", appData);
     const res = await axios.post("/api/app", appData, config);
+
     dispatch({
       type: appConstants.POST_APP_SUCCESS,
       payload: res.data,
