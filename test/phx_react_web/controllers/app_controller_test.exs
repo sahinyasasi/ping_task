@@ -5,16 +5,18 @@ defmodule PhxReactWeb.AppControllerTest do
   alias PhxReact.Apps.App
 
   @create_attrs %{
-    description: "some description",
-    name: "some name",
+    body: "some body",
+    status: "some status",
+    title: "some title",
     url: "some url"
   }
   @update_attrs %{
-    description: "some updated description",
-    name: "some updated name",
+    body: "some updated body",
+    status: "some updated status",
+    title: "some updated title",
     url: "some updated url"
   }
-  @invalid_attrs %{description: nil, name: nil, url: nil}
+  @invalid_attrs %{body: nil, status: nil, title: nil, url: nil}
 
   def fixture(:app) do
     {:ok, app} = Apps.create_app(@create_attrs)
@@ -26,7 +28,7 @@ defmodule PhxReactWeb.AppControllerTest do
   end
 
   describe "index" do
-    test "lists all apps", %{conn: conn} do
+    test "lists all app", %{conn: conn} do
       conn = get(conn, Routes.app_path(conn, :index))
       assert json_response(conn, 200)["data"] == []
     end
@@ -41,8 +43,9 @@ defmodule PhxReactWeb.AppControllerTest do
 
       assert %{
                "id" => id,
-               "description" => "some description",
-               "name" => "some name",
+               "body" => "some body",
+               "status" => "some status",
+               "title" => "some title",
                "url" => "some url"
              } = json_response(conn, 200)["data"]
     end
@@ -64,8 +67,9 @@ defmodule PhxReactWeb.AppControllerTest do
 
       assert %{
                "id" => id,
-               "description" => "some updated description",
-               "name" => "some updated name",
+               "body" => "some updated body",
+               "status" => "some updated status",
+               "title" => "some updated title",
                "url" => "some updated url"
              } = json_response(conn, 200)["data"]
     end

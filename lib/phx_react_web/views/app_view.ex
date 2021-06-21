@@ -2,8 +2,8 @@ defmodule PhxReactWeb.AppView do
   use PhxReactWeb, :view
   alias PhxReactWeb.AppView
 
-  def render("index.json", %{apps: apps}) do
-    %{data: render_many(apps, AppView, "app.json")}
+  def render("index.json", %{app: app}) do
+    %{data: render_many(app, AppView, "app.json")}
   end
 
   def render("show.json", %{app: app}) do
@@ -12,8 +12,9 @@ defmodule PhxReactWeb.AppView do
 
   def render("app.json", %{app: app}) do
     %{id: app.id,
-      name: app.name,
-      description: app.description,
-      url: app.url}
+      title: app.title,
+      body: app.body,
+      url: app.url,
+      status: app.status}
   end
 end

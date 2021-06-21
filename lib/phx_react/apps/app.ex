@@ -2,9 +2,10 @@ defmodule PhxReact.Apps.App do
   use Ecto.Schema
   import Ecto.Changeset
 
-  schema "apps" do
-    field :description, :string
-    field :name, :string
+  schema "app" do
+    field :body, :string
+    field :status, :string
+    field :title, :string
     field :url, :string
 
     timestamps()
@@ -13,8 +14,7 @@ defmodule PhxReact.Apps.App do
   @doc false
   def changeset(app, attrs) do
     app
-    |> cast(attrs, [:name, :description, :url])
-    |> validate_required([:name, :description, :url])
-    |> unique_constraint(:url)
+    |> cast(attrs, [:title, :body, :url, :status])
+    |> validate_required([:title, :body, :url, :status])
   end
 end

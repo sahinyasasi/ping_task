@@ -16,7 +16,7 @@ defmodule PhxReactWeb.Router do
   scope "/api", PhxReactWeb do
     pipe_through :api
     resources "/servers", ServerController, except: [:new, :edit, :create]
-    resources "/apps", AppController, except: [:new, :edit]
+    resources "/app", AppController, except: [:new, :edit]
   end
 
   scope "/", PhxReactWeb do

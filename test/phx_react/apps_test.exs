@@ -65,4 +65,69 @@ defmodule PhxReact.AppsTest do
       assert %Ecto.Changeset{} = Apps.change_app(app)
     end
   end
+
+  describe "app" do
+    alias PhxReact.Apps.App
+
+    @valid_attrs %{body: "some body", status: "some status", title: "some title", url: "some url"}
+    @update_attrs %{body: "some updated body", status: "some updated status", title: "some updated title", url: "some updated url"}
+    @invalid_attrs %{body: nil, status: nil, title: nil, url: nil}
+
+    def app_fixture(attrs \\ %{}) do
+      {:ok, app} =
+        attrs
+        |> Enum.into(@valid_attrs)
+        |> Apps.create_app()
+
+      app
+    end
+
+    test "list_app/0 returns all app" do
+      app = app_fixture()
+      assert Apps.list_app() == [app]
+    end
+
+    test "get_app!/1 returns the app with given id" do
+      app = app_fixture()
+      assert Apps.get_app!(app.id) == app
+    end
+
+    test "create_app/1 with valid data creates a app" do
+      assert {:ok, %App{} = app} = Apps.create_app(@valid_attrs)
+      assert app.body == "some body"
+      assert app.status == "some status"
+      assert app.title == "some title"
+      assert app.url == "some url"
+    end
+
+    test "create_app/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Apps.create_app(@invalid_attrs)
+    end
+
+    test "update_app/2 with valid data updates the app" do
+      app = app_fixture()
+      assert {:ok, %App{} = app} = Apps.update_app(app, @update_attrs)
+      assert app.body == "some updated body"
+      assert app.status == "some updated status"
+      assert app.title == "some updated title"
+      assert app.url == "some updated url"
+    end
+
+    test "update_app/2 with invalid data returns error changeset" do
+      app = app_fixture()
+      assert {:error, %Ecto.Changeset{}} = Apps.update_app(app, @invalid_attrs)
+      assert app == Apps.get_app!(app.id)
+    end
+
+    test "delete_app/1 deletes the app" do
+      app = app_fixture()
+      assert {:ok, %App{}} = Apps.delete_app(app)
+      assert_raise Ecto.NoResultsError, fn -> Apps.get_app!(app.id) end
+    end
+
+    test "change_app/1 returns a app changeset" do
+      app = app_fixture()
+      assert %Ecto.Changeset{} = Apps.change_app(app)
+    end
+  end
 end

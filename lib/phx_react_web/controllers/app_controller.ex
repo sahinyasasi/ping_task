@@ -7,8 +7,8 @@ defmodule PhxReactWeb.AppController do
   action_fallback PhxReactWeb.FallbackController
 
   def index(conn, _params) do
-    apps = Apps.list_apps()
-    render(conn, "index.json", apps: apps)
+    app = Apps.list_app()
+    render(conn, "index.json", app: app)
   end
 
   def create(conn, %{"app" => app_params}) do

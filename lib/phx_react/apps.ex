@@ -9,15 +9,15 @@ defmodule PhxReact.Apps do
   alias PhxReact.Apps.App
 
   @doc """
-  Returns the list of apps.
+  Returns the list of app.
 
   ## Examples
 
-      iex> list_apps()
+      iex> list_app()
       [%App{}, ...]
 
   """
-  def list_apps do
+  def list_app do
     Repo.all(App)
   end
 
