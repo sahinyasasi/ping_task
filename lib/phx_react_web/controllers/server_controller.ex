@@ -11,15 +11,6 @@ defmodule PhxReactWeb.ServerController do
     render(conn, "index.json", servers: servers)
   end
 
-  def create(conn, %{"server" => server_params}) do
-    with {:ok, %Server{} = server} <- Servers.create_server(server_params) do
-      conn
-      |> put_status(:created)
-      |> put_resp_header("location", Routes.server_path(conn, :show, server))
-      |> render("show.json", server: server)
-    end
-  end
-
   def show(conn, %{"id" => id}) do
     server = Servers.get_server!(id)
     render(conn, "show.json", server: server)
