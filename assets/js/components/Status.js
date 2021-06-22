@@ -47,7 +47,7 @@ channel
     console.log("Unable to join Websocket", resp);
   });
 */
-const Home = () => {
+const Status = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const getUrl = useSelector((state) => state.getUrl);
@@ -105,4 +105,4 @@ const Home = () => {
     </TableContainer>
   );
 };
-export default Home;
+export default Status;

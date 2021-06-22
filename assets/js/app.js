@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { Router } from "react-router";
 import { Route, Switch, Redirect } from "react-router-dom";
 import { render } from "react-dom";
-import Home from "./components/Home";
+import Status from "./components/Status";
 
 import { history } from "./helpers/history";
 import { store } from "./helpers/store";
@@ -14,10 +14,10 @@ import PostApp from "./components/postApp";
 const App = () => {
   return (
     <Router history={history}>
-      <Route exact path="/">
-        <Home />
+      <Route exact path="/status">
+        <Status />
       </Route>
-      <Route exact path="/apps">
+      <Route exact path="/">
         <PostApp />
       </Route>
     </Router>

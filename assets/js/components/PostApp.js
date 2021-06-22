@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { Link as RouterLink } from "react-router-dom";
 import {
   makeStyles,
   
@@ -30,6 +31,9 @@ const useStyles = makeStyles({
   submitBtn: {
     backgroundColor: "#8B008B",
     color: "white",
+  },
+  statusBtn:{
+    marginTop: 20
   },
 });
 
@@ -187,7 +191,18 @@ const PostApp = () => {
             </Button>
           </Grid>
         </Grid>
+
       </form>
+<div className={classes.statusBtn}>
+      <Button
+       id="url-input"
+      variant="contained"
+       className={classes.submitBtn}
+       to={`/status`} component={RouterLink} >
+              Check Status of Apps
+            </Button>
+            </div>
+            
     </div>
   );
 };
