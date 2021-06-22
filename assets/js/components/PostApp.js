@@ -34,6 +34,17 @@ const useStyles = makeStyles({
   },
 });
 
+const status = [
+  {
+    value: "Active",
+    label: "Active",
+  },
+  {
+    value: "inActive",
+    label: "inActive",
+  },
+];
+
 const PostApp = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -85,7 +96,7 @@ const PostApp = () => {
     <div component={Paper} className={classes.container}>
       <div className={classes.head}>
         <Typography className={classes.header} variant="h3">
-          Available Apps
+          App Form
         </Typography>
       </div>
       <form noValidate autoComplete="off">
@@ -104,22 +115,25 @@ const PostApp = () => {
           </Grid>
 
           <Grid item sm={6}>
-            <FormControl variant="outlined" fullWidth>
-              <InputLabel>Status</InputLabel>
-              <Select
-                value={details.status}
-                name="status"
-                label="Status"
-                onChange={(e) =>
-                  handleChange("status", { value: e.target.value })
-                }
-                error={!!errors.status}
-                helperText={errors.status}
-              >
-                <MenuItem value={"Active"}>Active</MenuItem>
-                <MenuItem value={"inActive"}>inActive</MenuItem>
-              </Select>
-            </FormControl>
+            <TextField
+              select
+              fullWidth
+              label="Status"
+              name="status"
+              value={details.status}
+              onChange={(e) =>
+                handleChange("status", { value: e.target.value })
+              }
+              error={!!errors.status}
+              helperText={errors.status}
+              variant="outlined"
+            >
+              {status.map((option) => (
+                <MenuItem key={option.value} value={option.value}>
+                  {option.label}
+                </MenuItem>
+              ))}
+            </TextField>
           </Grid>
         </Grid>
         <Grid container spacing={3}>
