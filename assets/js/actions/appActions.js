@@ -21,3 +21,18 @@ export const addApp = (appData) => async (dispatch) => {
     });
   }
 };
+export const listApps=()=>async(dispatch)=>{
+  try {
+    const res = await axios.get("/api/app");
+    dispatch({
+      type: appConstants.LIST_APPS_SUCCESS,
+      payload: res.data.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: appConstants.LIST_APPS_FAILURE,
+      payload: { msg: err.response.statustext, status: err.response.status },
+    });
+  }
+
+}

@@ -19,6 +19,17 @@ export default function (state = initialState, action) {
         ...state,
         error: payload,
       };
+      case appConstants.LIST_APPS_SUCCESS:
+      return {
+        ...state,
+        apps: payload,
+        
+      };
+      case appConstants.LIST_APPS_FAILURE:
+      return {
+        ...state,
+        error: payload,
+      };
 
     default:
       return state;
