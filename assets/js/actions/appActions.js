@@ -21,7 +21,7 @@ export const addApp = (appData) => async (dispatch) => {
     });
   }
 };
-export const listApps=()=>async(dispatch)=>{
+export const listApps = () => async (dispatch) => {
   try {
     const res = await axios.get("/api/app");
     dispatch({
@@ -34,8 +34,7 @@ export const listApps=()=>async(dispatch)=>{
       payload: { msg: err.response.statustext, status: err.response.status },
     });
   }
-
-}
+};
 export const deleteApp = (id) => async (dispatch) => {
   try {
     await axios.delete(`/api/app/${id}`);
@@ -43,10 +42,45 @@ export const deleteApp = (id) => async (dispatch) => {
       type: appConstants.DELETE_APP_SUCCESS,
       payload: id,
     });
-    
   } catch (err) {
     dispatch({
       type: appConstants.DELETE_APP_FAILURE,
+      payload: { msg: err.response.statustext, status: err.response.status },
+    });
+  }
+};
+export const updateApp = (formData, id) => async (dispatch) => {
+  try {
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+    const res = await axios.put(`/api/app/${id}`, formData, config);
+    dispatch({
+      type: appConstants.UPDATE_APP_SUCCESS,
+      payload: res.data,
+    });
+  } catch (err) {
+    const errors = err.response.data.errors;
+    if (errors) {
+      dispatch({
+        type: appConstants.UPDATE_APP_FAILURE,
+        payload: { msg: err.response.statustext, status: err.response.status },
+      });
+    }
+  }
+};
+export const getApp = (id) => async (dispatch) => {
+  try {
+    const res = await axios.get(`/api/app/${id}`);
+    dispatch({
+      type: appConstants.GET_APP_SUCCESS,
+      payload: res.data.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: appConstants.GET_APP_FAILURE,
       payload: { msg: err.response.statustext, status: err.response.status },
     });
   }
