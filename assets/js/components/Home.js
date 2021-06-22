@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 //socket code
-let socket = new Socket("/socket", { params: { token: window.userToken } });
+/*let socket = new Socket("/socket", { params: { token: window.userToken } });
 socket.connect();
 let channel = socket.channel("server:update", {});
 channel
@@ -46,7 +46,7 @@ channel
   .receive("error", (resp) => {
     console.log("Unable to join Websocket", resp);
   });
-
+*/
 const Home = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -55,10 +55,10 @@ const Home = () => {
 
   useEffect(() => {
     dispatch(listAll());
-    channel.on("new_data", (msg) => {
-      dispatch(listAll());
-      console.log("redux state updated using channel");
-    });
+    // channel.on("new_data", (msg) => {
+      //dispatch(listAll());
+      //console.log("redux state updated using channel");
+    //});
   }, [dispatch]);
 
   const convert = (date) => {

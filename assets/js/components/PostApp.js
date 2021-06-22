@@ -2,15 +2,14 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   makeStyles,
-  FormControl,
+  
   Typography,
   TextField,
   Paper,
   Grid,
-  InputLabel,
+  
   MenuItem,
-  FormHelperText,
-  Select,
+  
   Button,
 } from "@material-ui/core";
 
@@ -63,6 +62,8 @@ const PostApp = () => {
   };
 
   ///////////////////////////////////////////////////////////////////////////////////
+  //validation code//
+  
   const handleValidation = () => {
     let fields = details;
     let errors = {};
@@ -90,6 +91,13 @@ const PostApp = () => {
   ////////////////////////////////////////////////////////////////////////////////////
   const postAppSubmit = (details) => {
     dispatch(addApp({ app: details }));
+    setDetails({
+      title: "",
+      body: "",
+      url: "",
+      status: "",
+    });
+    setErrors({})
   };
 
   return (
