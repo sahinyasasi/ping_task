@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link as RouterLink } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import {
   makeStyles,
   
@@ -15,27 +16,25 @@ import {
 } from "@material-ui/core";
 
 import { addApp } from "../actions/appActions";
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   container: {
     margin: 20,
     maxWidth: 650,
   },
   header: {
     fontFamily: "cursive",
-    color: "#8B008B",
+    color: theme.palette.info.light,
   },
 
   head: {
     marginBottom: 40,
   },
   submitBtn: {
-    backgroundColor: "#8B008B",
+    backgroundColor: theme.palette.info.light,
     color: "white",
   },
-  statusBtn:{
-    marginTop: 20
-  },
-});
+ 
+}));
 
 const status = [
   {
@@ -50,6 +49,7 @@ const status = [
 
 const PostApp = () => {
   const classes = useStyles();
+  const history = useHistory();
   const dispatch = useDispatch();
   const [details, setDetails] = useState({
     title: "",
@@ -184,6 +184,7 @@ const PostApp = () => {
                 e.preventDefault();
                 if (handleValidation()) {
                   postAppSubmit(details);
+                  history.push("/");
                 }
               }}
             >
@@ -193,15 +194,7 @@ const PostApp = () => {
         </Grid>
 
       </form>
-<div className={classes.statusBtn}>
-      <Button
-       id="url-input"
-      variant="contained"
-       className={classes.submitBtn}
-       to={`/status`} component={RouterLink} >
-              Check Status of Apps
-            </Button>
-            </div>
+
             
     </div>
   );
