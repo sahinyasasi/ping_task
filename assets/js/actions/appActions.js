@@ -36,3 +36,18 @@ export const listApps=()=>async(dispatch)=>{
   }
 
 }
+export const deleteApp = (id) => async (dispatch) => {
+  try {
+    await axios.delete(`/api/app/${id}`);
+    dispatch({
+      type: appConstants.DELETE_APP_SUCCESS,
+      payload: id,
+    });
+    
+  } catch (err) {
+    dispatch({
+      type: appConstants.DELETE_APP_FAILURE,
+      payload: { msg: err.response.statustext, status: err.response.status },
+    });
+  }
+};
