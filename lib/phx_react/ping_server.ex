@@ -42,14 +42,15 @@ defmodule PhxReact.PingServer do
 
   defp insert(url, status_code) do
     s = from(Server, where: [url: ^url])
+    updated_time = DateTime.truncate(DateTime.utc_now(), :second)
 
     case Repo.one(s) do
       nil ->
-        Repo.insert(%Server{url: url, status_code: status_code})
+        Repo.insert(%Server{url: url, status_code: status_code, updated_at: updated_time})
 
       %Server{} = server ->
         server
-        |> Ecto.Changeset.change(%{status_code: status_code})
+        |> Ecto.Changeset.change(%{status_code: status_code, updated_at: updated_time})
         |> Repo.update()
     end
   end
