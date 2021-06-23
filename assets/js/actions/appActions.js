@@ -12,8 +12,9 @@ export const addApp = (appData) => async (dispatch) => {
 
     dispatch({
       type: appConstants.POST_APP_SUCCESS,
-      payload: res.data,
+      payload: res.data.data,
     });
+    console.log("added app..........");
   } catch (err) {
     dispatch({
       type: appConstants.POST_APP_FAILURE,
@@ -42,6 +43,7 @@ export const deleteApp = (id) => async (dispatch) => {
       type: appConstants.DELETE_APP_SUCCESS,
       payload: id,
     });
+    console.log("deleted app...........");
   } catch (err) {
     dispatch({
       type: appConstants.DELETE_APP_FAILURE,
@@ -59,8 +61,9 @@ export const updateApp = (formData, id) => async (dispatch) => {
     const res = await axios.put(`/api/app/${id}`, formData, config);
     dispatch({
       type: appConstants.UPDATE_APP_SUCCESS,
-      payload: res.data,
+      payload: res.data.data,
     });
+    console.log("updated app............");
   } catch (err) {
     const errors = err.response.data.errors;
     if (errors) {

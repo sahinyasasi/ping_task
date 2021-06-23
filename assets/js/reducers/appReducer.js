@@ -12,7 +12,7 @@ export default function (state = initialState, action) {
     case appConstants.POST_APP_SUCCESS:
       return {
         ...state,
-        apps: [payload, ...state.apps],
+        apps: [...state.apps, payload],
       };
     case appConstants.POST_APP_FAILURE:
       return {
