@@ -4,14 +4,11 @@ import { Link as RouterLink } from "react-router-dom";
 import { useHistory } from "react-router-dom";
 import {
   makeStyles,
-  
   Typography,
   TextField,
   Paper,
   Grid,
-  
   MenuItem,
-  
   Button,
 } from "@material-ui/core";
 
@@ -33,7 +30,6 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.info.light,
     color: "white",
   },
- 
 }));
 
 const status = [
@@ -67,7 +63,7 @@ const PostApp = () => {
 
   ///////////////////////////////////////////////////////////////////////////////////
   //validation code//
-  
+
   const handleValidation = () => {
     let fields = details;
     let errors = {};
@@ -101,7 +97,7 @@ const PostApp = () => {
       url: "",
       status: "",
     });
-    setErrors({})
+    setErrors({});
   };
 
   return (
@@ -188,14 +184,11 @@ const PostApp = () => {
                 }
               }}
             >
-              Add Server
+              Add App
             </Button>
           </Grid>
         </Grid>
-
       </form>
-
-            
     </div>
   );
 };

@@ -182,7 +182,7 @@ const EditApp = () => {
                   }
                 }}
               >
-                Add Server
+                Update App
               </Button>
             </Grid>
           </Grid>

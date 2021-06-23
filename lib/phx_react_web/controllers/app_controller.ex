@@ -13,9 +13,7 @@ defmodule PhxReactWeb.AppController do
 
   def create(conn, %{"app" => app_params}) do
     with {:ok, %App{} = app} <- Apps.create_app(app_params) do
-      PhxReactWeb.Endpoint.broadcast!("app:update", "new_app", %{
-        response: "data"
-      })
+      PhxReactWeb.Endpoint.broadcast!("app:update", "new_app", %{})
 
       conn
       |> put_status(:created)
@@ -33,6 +31,7 @@ defmodule PhxReactWeb.AppController do
     app = Apps.get_app!(id)
 
     with {:ok, %App{} = app} <- Apps.update_app(app, app_params) do
+      PhxReactWeb.Endpoint.broadcast!("app:update", "new_app", %{})
       render(conn, "show.json", app: app)
     end
   end
@@ -41,9 +40,7 @@ defmodule PhxReactWeb.AppController do
     app = Apps.get_app!(id)
 
     with {:ok, %App{}} <- Apps.delete_app(app) do
-      PhxReactWeb.Endpoint.broadcast!("app:update", "new_app", %{
-        response: "data"
-      })
+      PhxReactWeb.Endpoint.broadcast!("app:update", "new_app", %{})
 
       send_resp(conn, :no_content, "")
     end
