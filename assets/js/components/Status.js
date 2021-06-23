@@ -1,8 +1,7 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { listAll } from "../actions/urlActions";
 import FiberManualRecordIcon from "@material-ui/icons/FiberManualRecord";
-import { Socket } from "phoenix";
 
 import { makeStyles } from "@material-ui/core/styles";
 
@@ -34,32 +33,19 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-//socket code
-/*let socket = new Socket("/socket", { params: { token: window.userToken } });
-socket.connect();
-let channel = socket.channel("server:update", {});
-channel
-  .join()
-  .receive("ok", (resp) => {
-    console.log("Joined WebSocket successfully", resp);
-  })
-  .receive("error", (resp) => {
-    console.log("Unable to join Websocket", resp);
-  });
-*/
 const Status = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const getUrl = useSelector((state) => state.getUrl);
-  console.log("redux state................", getUrl.urls);
 
+  const list = useSelector((state) => state.getUrl.urls);
+  console.log("redux state................", list);
+  const [data, setData] = useState(list);
   useEffect(() => {
     dispatch(listAll());
-    // channel.on("new_data", (msg) => {
-      //dispatch(listAll());
-      //console.log("redux state updated using channel");
-    //});
   }, [dispatch]);
+  useEffect(() => {
+    setData(list);
+  }, [list]);
 
   const convert = (date) => {
     let localdate = new Date(date);
@@ -82,7 +68,7 @@ const Status = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {getUrl.urls.map((url) => (
+          {data.map((url) => (
             <TableRow key={url.id}>
               <TableCell component="th" scope="row">
                 {url.url}
