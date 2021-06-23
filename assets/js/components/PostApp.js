@@ -29,6 +29,9 @@ const useStyles = makeStyles((theme) => ({
   submitBtn: {
     backgroundColor: theme.palette.info.light,
     color: "white",
+    "&:hover": {
+      background: theme.palette.success.light,
+    },
   },
 }));
 

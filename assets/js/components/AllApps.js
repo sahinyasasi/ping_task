@@ -39,6 +39,19 @@ const useStyles = makeStyles((theme) => ({
   button: {
     color: "white",
     backgroundColor: theme.palette.info.light,
+    "&:hover": {
+      background: theme.palette.success.light,
+    },
+  },
+  deleteBtn: {
+    "&:hover": {
+      background: theme.palette.error.light,
+    },
+  },
+  editBtn: {
+    "&:hover": {
+      background: theme.palette.error.light,
+    },
   },
 }));
 let socket = new Socket("/socket", { params: { token: window.userToken } });
@@ -123,6 +136,7 @@ const AllApps = () => {
                   <Button
                     variant="contained"
                     type="submit"
+                    className={classes.deleteBtn}
                     onClick={(e) => {
                       e.preventDefault();
                       handleAppDelete(app.id);
@@ -134,6 +148,7 @@ const AllApps = () => {
                     variant="contained"
                     to={`/app/${app.id}/edit`}
                     component={RouterLink}
+                    className={classes.editBtn}
                   >
                     Edit
                   </Button>

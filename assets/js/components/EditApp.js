@@ -30,6 +30,9 @@ const useStyles = makeStyles((theme) => ({
   submitBtn: {
     backgroundColor: theme.palette.info.light,
     color: "white",
+    "&:hover": {
+      background: theme.palette.success.light,
+    },
   },
 }));
 
@@ -47,10 +50,10 @@ const status = [
 const EditApp = () => {
   const classes = useStyles();
   const { id } = useParams();
-  const getApps = useSelector((state) => state.app.app);
+  const app = useSelector((state) => state.app.app);
   const history = useHistory();
   const dispatch = useDispatch();
-  const [details, setDetails] = useState(getApps);
+  const [details, setDetails] = useState(app);
   const [errors, setErrors] = useState({});
   const handleChange = (key, data) => {
     setDetails({
@@ -90,8 +93,8 @@ const EditApp = () => {
     dispatch(getApp(id));
   }, [dispatch]);
   useEffect(() => {
-    setDetails(getApps);
-  }, [getApps]);
+    setDetails(app);
+  }, [app]);
 
   if (details) {
     return (
