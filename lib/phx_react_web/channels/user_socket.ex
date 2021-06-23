@@ -3,6 +3,7 @@ defmodule PhxReactWeb.UserSocket do
 
   ## Channels
   channel "server:*", PhxReactWeb.ServerChannel
+  channel "app:*", PhxReactWeb.AppChannel
 
   # Socket params are passed from the client and can
   # be used to verify and authenticate a user. After

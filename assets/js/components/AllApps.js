@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link as RouterLink } from "react-router-dom";
+
 import {
   makeStyles,
   Table,
@@ -13,6 +14,7 @@ import {
   Grid,
   Button,
 } from "@material-ui/core";
+import { Socket } from "phoenix";
 
 import { listApps, deleteApp } from "../actions/appActions";
 const useStyles = makeStyles((theme) => ({
@@ -39,6 +41,17 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.info.light,
   },
 }));
+let socket = new Socket("/socket", { params: { token: window.userToken } });
+socket.connect();
+let channel = socket.channel("app:update", {});
+channel
+  .join()
+  .receive("ok", (resp) => {
+    console.log("Joined WebSocket successfully", resp);
+  })
+  .receive("error", (resp) => {
+    console.log("Unable to join Websocket", resp);
+  });
 const AllApps = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -46,6 +59,10 @@ const AllApps = () => {
 
   useEffect(() => {
     dispatch(listApps());
+    channel.on("new_app", (msg) => {
+      dispatch(listApps());
+      console.log("redux state updated using channel");
+    });
   }, [dispatch]);
   const handleAppDelete = (id) => {
     dispatch(deleteApp(id));
