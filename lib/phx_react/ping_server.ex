@@ -21,36 +21,41 @@ defmodule PhxReact.PingServer do
   end
 
   def ping do
-    query = from a in "app", where: a.status == "Active", select: a.url
+    query = from a in "app", where: a.status == "Active", select: [a.url, a.id]
     list = Repo.all(query)
-    Enum.map(list, fn url -> async_get(url) end)
+    Enum.map(list, fn [url, id] -> async_get(url, id) end)
   end
 
-  def async_get(url) do
+  def async_get(url, id) do
     Task.start(fn ->
       case HTTPoison.get(url, [], timeout: 10_000, recv_timeout: 10_000) do
         {:ok, %HTTPoison.Response{status_code: status_code}} ->
-          insert(url, status_code)
+          insert(url, status_code, id)
           IO.inspect(status_code)
 
         {:error, _err} ->
-          insert(url, 500)
+          insert(url, 500, id)
           IO.inspect("error")
       end
     end)
   end
 
-  defp insert(url, status_code) do
-    s = from(Server, where: [url: ^url])
+  defp insert(url, status_code, id) do
+    s = from(Server, where: [url: ^url, app_id: ^id])
     updated_time = DateTime.truncate(DateTime.utc_now(), :second)
 
     case Repo.one(s) do
       nil ->
-        Repo.insert(%Server{url: url, status_code: status_code, updated_at: updated_time})
+        Repo.insert(%Server{
+          url: url,
+          status_code: status_code,
+          updated_at: updated_time,
+          app_id: id
+        })
 
       %Server{} = server ->
         server
-        |> Ecto.Changeset.change(%{status_code: status_code, updated_at: updated_time})
+        |> Ecto.Changeset.change(%{status_code: status_code, updated_at: updated_time, app_id: id})
         |> Repo.update()
     end
   end
