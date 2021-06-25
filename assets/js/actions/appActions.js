@@ -1,5 +1,6 @@
 import { appConstants } from "../constants/appConstants";
 import axios from "axios";
+import { setAlert } from "./alertActions";
 export const addApp = (appData) => async (dispatch) => {
   const config = {
     headers: {
@@ -14,7 +15,7 @@ export const addApp = (appData) => async (dispatch) => {
       type: appConstants.POST_APP_SUCCESS,
       payload: res.data.data,
     });
-    console.log("added app..........");
+    dispatch(setAlert("App Created Successfully", "success"));
   } catch (err) {
     dispatch({
       type: appConstants.POST_APP_FAILURE,
@@ -43,7 +44,7 @@ export const deleteApp = (id) => async (dispatch) => {
       type: appConstants.DELETE_APP_SUCCESS,
       payload: id,
     });
-    console.log("deleted app...........");
+    dispatch(setAlert("App Removed Succesfully", "success"));
   } catch (err) {
     dispatch({
       type: appConstants.DELETE_APP_FAILURE,
@@ -63,7 +64,7 @@ export const updateApp = (formData, id) => async (dispatch) => {
       type: appConstants.UPDATE_APP_SUCCESS,
       payload: res.data.data,
     });
-    console.log("updated app............");
+    dispatch(setAlert("App Updated Successfully", "success"));
   } catch (err) {
     const errors = err.response.data.errors;
     if (errors) {

@@ -94,6 +94,7 @@ const PostApp = () => {
   ////////////////////////////////////////////////////////////////////////////////////
   const postAppSubmit = (details) => {
     dispatch(addApp({ app: details }));
+
     setDetails({
       title: "",
       body: "",
