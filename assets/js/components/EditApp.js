@@ -13,7 +13,7 @@ import {
   Button,
 } from "@material-ui/core";
 
-import { addApp } from "../actions/appActions";
+import { setAlert } from "../actions/alertActions";
 const useStyles = makeStyles((theme) => ({
   container: {
     margin: 20,
@@ -182,6 +182,8 @@ const EditApp = () => {
                   if (handleValidation()) {
                     editAppSubmit(details);
                     history.push("/");
+                  } else {
+                    dispatch(setAlert("Fill All The Fields", "error"));
                   }
                 }}
               >

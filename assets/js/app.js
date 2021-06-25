@@ -11,13 +11,13 @@ import PostApp from "./components/postApp";
 import Status from "./components/Status";
 import AllApps from "./components/AllApps";
 import EditApp from "./components/EditApp";
-import Alert1 from "./components/Alert";
+import Alerts from "./components/Alert";
 
 const App = () => {
   return (
     <Router history={history}>
       <div className="container">
-        <Alert1 />
+        <Alerts />
         <Route exact path="/status">
           <Status />
         </Route>

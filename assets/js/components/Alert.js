@@ -1,18 +1,18 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Alert } from "reactstrap";
+import Alert from "@material-ui/lab/Alert";
 
-const Alert1 = () => {
+const Alerts = () => {
   const alerts = useSelector((state) => state.alert);
   return (
     alerts !== null &&
     alerts.length > 0 &&
     alerts.map((alert) => (
-      <Alert color="success" key={alert.id}>
+      <Alert variant="filled" severity={alert.alertType} key={alert.id}>
         {alert.msg}
       </Alert>
     ))
   );
 };
 
-export default Alert1;
+export default Alerts;
