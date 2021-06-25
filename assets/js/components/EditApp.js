@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router";
-import { getApp, updateApp } from "../actions/appActions";
 import { useHistory } from "react-router-dom";
 import {
   makeStyles,
@@ -12,7 +11,7 @@ import {
   MenuItem,
   Button,
 } from "@material-ui/core";
-
+import { getApp, updateApp } from "../actions/appActions";
 import { setAlert } from "../actions/alertActions";
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -49,10 +48,10 @@ const status = [
 
 const EditApp = () => {
   const classes = useStyles();
-  const { id } = useParams();
-  const app = useSelector((state) => state.app.app);
   const history = useHistory();
   const dispatch = useDispatch();
+  const { id } = useParams();
+  const app = useSelector((state) => state.app.app);
   const [details, setDetails] = useState(app);
   const [errors, setErrors] = useState({});
   const handleChange = (key, data) => {

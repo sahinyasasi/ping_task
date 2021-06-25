@@ -1,11 +1,11 @@
 import { combineReducers } from "redux";
 
-import getUrl from "./urlReducer";
+import url from "./urlReducer";
 import app from "./appReducer";
 import alert from "./alertReducer";
 
 const rootReducer = combineReducers({
-  getUrl,
+  url,
   app,
   alert,
 });

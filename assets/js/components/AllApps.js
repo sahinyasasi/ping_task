@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link as RouterLink } from "react-router-dom";
-
+import { Socket } from "phoenix";
 import {
   makeStyles,
   Table,
@@ -10,11 +10,9 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  Typography,
   Grid,
   Button,
 } from "@material-ui/core";
-import { Socket } from "phoenix";
 
 import { listApps, deleteApp } from "../actions/appActions";
 const useStyles = makeStyles((theme) => ({
@@ -54,6 +52,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
 }));
+///////////////Channel code /////////////////////////////////
 let socket = new Socket("/socket", { params: { token: window.userToken } });
 socket.connect();
 let channel = socket.channel("app:update", {});
@@ -65,11 +64,11 @@ channel
   .receive("error", (resp) => {
     console.log("Unable to join Websocket", resp);
   });
+////////////////////////////////////////////////////////////
 const AllApps = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const getApps = useSelector((state) => state.app);
-
   useEffect(() => {
     dispatch(listApps());
     channel.on("new_app", (msg) => {

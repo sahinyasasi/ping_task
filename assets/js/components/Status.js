@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { listAll } from "../actions/urlActions";
 import FiberManualRecordIcon from "@material-ui/icons/FiberManualRecord";
-
 import { makeStyles } from "@material-ui/core/styles";
 
 import {
@@ -36,8 +35,7 @@ const useStyles = makeStyles((theme) => ({
 const Status = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
-
-  const list = useSelector((state) => state.getUrl.urls);
+  const list = useSelector((state) => state.url.urls);
   console.log("redux state................", list);
   const [data, setData] = useState(list);
   useEffect(() => {
